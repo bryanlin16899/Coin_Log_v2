@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- Page content-->
+    <section class="overview">
+        <div class="container">
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                      <th>Costs</th>
+                      <th>Coin amount</th>
+                      <th>Realized profit</th>
+                      <th>Unrealized profit</th>
+                      <th>Totle profit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                      <td>{{ this_coin.totle_costs|floatformat:4 }}<p style="color:red; margin:0px;">{{ error }}</p></td>
+                      <td>{{ this_coin.totle_amount|floatformat:6 }}</td>
+                      <td>{{ this_coin.realized_profit|floatformat:4 }}</td>
+                      <td>{{ this_coin.unrealized_profit|floatformat:4 }}</td>
+                      <td class="coin_profit">{{ this_coin.profit|floatformat:2 }}</td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class="records">
+        <div class="container">
+          <div class="row">
+              <div class="col col-lg-10">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Date</th>
+                        <th scope="col"></th>
+                        <th scope="col">Coin</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Cost</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in this_coin.new_trade%}
+                      <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td class="col-md-2">{{ item.time }}</td>
+                        {% if item.isBuyer %}
+                          <td><button type="button" class="btn btn-success btn-sm disabled">Buy</button></td>
+                        {% else %}
+                          <td><button type="button" class="btn btn-danger btn-sm disabled">Sell</button></td>
+                        {% endif %}
+                        <td>{{ item.symbol }}</td>
+                        <td>{{ item.price|floatformat:3 }}</td>
+                        <td>{{ item.qty }}</td>
+                        <td>{{ item.quoteQty|floatformat:3 }}</td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+              </div>
+              <div class="col col-lg-2">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Asset</th>
+                        <th scope="col">Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in user_asset %}
+                      <tr>
+                        <td style="font-size: 15px">
+                            <img class="coin-icon" alt="{{ item.asset }}" src="#" width="23">
+                            {{ item.asset }}
+                        </td>
+                        <td class="col-md-2">{{ item.free|floatformat:5 }}</td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+              </div>
+          </div>
+        </div>
+      </section>
+{% endblock %}
+
+<!--Design from Bryan lin: https://github.com/bryanlin16899 -->
