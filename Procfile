@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn crypto_invest.wsgi
+web: gunicorn coin_log.wsgi
