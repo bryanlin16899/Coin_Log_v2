@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'coin_log.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'heroku_54d2dd3259d17d8',
-        'USER': 'b9a096c874bb13',
-        'PASSWORD': '037b040c',
+        'NAME': 'heroku_03fab16aa70390a',
+        'USER': 'b39ec2b00968a3',
+        'PASSWORD': '06788cb4',
         'HOST': 'us-cdbr-east-04.cleardb.com', #本地的話就是localhost
         'OPTIONS': {
             'charset': 'utf8mb4' #因為網站會需要輸入中文，所以使用utf8
