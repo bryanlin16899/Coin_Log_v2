@@ -38,6 +38,16 @@
                           <button type="submit" class="btn btn-primary w-100">Search</button>
                         </div>
                       </form> -->
+                      <form class="row form hidden" autocomplete="off" method="POST">
+                        {% csrf_token %}
+                        <div class="col-sm-12 autocomplete">
+                          <label for="inputTicker" class="form-label">Ticker</label>
+                          <input id="inputTicker" type="text" name="inputTicker" placeholder="ex.BTCUSDT">
+                        </div>
+                        <div class="col-12 form-submit">
+                            <button type="submit" class="btn btn-primary w-100">Search</button>
+                        </div>
+                      </form>
                     </div>
                     <hr>
                     <div class="container coin-info-container">
