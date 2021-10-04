@@ -11347,6 +11347,7 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 body {
   font: 16px Arial;
 }
+/**/
 .autocomplete {
   /*the container must be positioned relative:*/
   position: relative;
