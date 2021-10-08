@@ -22,4 +22,4 @@ So I made this for who want to check all trade on binance.
 5.Show your all assets on binance on right of the page
 
 ## How to use
-You should use desktop version Binance to get your client API(for sercurity, when you create your own API at the restrict bolck just select ### read only), at sign up page you can enter your API key and SECRET key.
+You should use desktop version Binance to get your client API(for sercurity, when you create your own API at the restrict bolck just select read only), at sign up page you can enter your API key and SECRET key.
