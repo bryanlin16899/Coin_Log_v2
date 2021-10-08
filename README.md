@@ -16,7 +16,7 @@ Deploy：Heroku
 Couple weeks ago I want to check my trade on binance and statistical it, but on binance you only can see about 3 months ago at one search, it's so inconvenience.
 So I made this for who want to check all trade on binance.
 
-## Functio：
+## Function：
 * Member system with sha256
 * Real-time cryptocurrency price and price change on 24h
 * Auto update data without refresh the page
