@@ -20,7 +20,7 @@ class CoinMarketView {
 
     _generateMarkup() {
         return `
-                <td style="font-size: 13px"> <img src="${this._data.image}" width="23"> ${this._data.symbol}</td>
+                <td style="font-size: 11px;"> <img src="${this._data.image}" width="23"> ${this._data.symbol}</td>
                 <td style="font-size: 12px" class="coin_market">${this._data.current_price}</td>
                 <td style="font-size: 1px" class="day_change">${this._data.price_change_persentage}</td>
         `
