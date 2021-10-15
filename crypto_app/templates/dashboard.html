@@ -28,7 +28,7 @@
     <section class="records">
         <div class="container">
           <div class="row">
-              <div class="col col-lg-10">
+              <div class="col col-lg-9">
                   <table class="table table-striped">
                     <thead>
                       <tr>
@@ -60,7 +60,7 @@
                     </tbody>
                   </table>
               </div>
-              <div class="col col-lg-2">
+              <div class="col col-lg-3">
                   <table class="table table-striped">
                     <thead>
                       <tr>
@@ -71,7 +71,7 @@
                     <tbody>
                     {% for item in user_asset %}
                       <tr>
-                        <td style="font-size: 13px">
+                        <td class="col-md-2 asset-icon" style="font-size: 14px">
                             <img class="coin-icon" alt="{{ item.asset }}" src="#" width="23">
                             {{ item.asset }}
                         </td>
