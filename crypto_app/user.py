@@ -19,7 +19,7 @@ class GetUserInfo:
         client = Client(self.api_key, self.secret_key)
         trade_records = client.get_my_trades(symbol=symbol)
         
-        if len(trade_records) == user_trade_records.objects.filter(symbol='BTCUSDT').count():
+        if len(trade_records) != user_trade_records.objects.filter(symbol=symbol).count():
             for data in trade_records:
                 if not user_trade_records.objects.filter(record_id=data['id']).exists():
 
@@ -72,7 +72,6 @@ class GetUserInfo:
         #     return False
 
     def cur_coin_detail(self, symbol='BTCUSDT'):
-        self.load_trades_info(symbol)
         client = Client(self.api_key, self.secret_key)
 
         trade_query = user_trade_records.objects.filter(symbol=symbol)
