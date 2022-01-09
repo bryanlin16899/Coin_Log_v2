@@ -22,7 +22,8 @@ const _getData = async function (url) {
         const result = await res.json();
 
         if(!res.ok) throw new Error(`something wrong.`);
-
+        
+        console.log(result);
         return result;
 
     } catch (err) {

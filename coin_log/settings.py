@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'coin_log.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'coin_log_test',
+        'NAME': 'coin_log_dev',
         'USER': 'root',
         'PASSWORD': '!?frdvgtecb03',
         'HOST': 'localhost', #本地的話就是localhost

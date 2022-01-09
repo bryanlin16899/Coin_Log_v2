@@ -15,11 +15,11 @@
                 </thead>
                 <tbody>
                   <tr>
-                      <td>{{ this_coin.totle_costs|floatformat:4 }}<p style="color:red; margin:0px;">{{ error }}</p></td>
-                      <td>{{ this_coin.totle_amount|floatformat:6 }}</td>
-                      <td>{{ this_coin.realized_profit|floatformat:4 }}</td>
-                      <td>{{ this_coin.unrealized_profit|floatformat:4 }}</td>
-                      <td class="coin_profit">{{ this_coin.profit|floatformat:2 }}</td>
+                      <td>{{ trade_info.totle_costs|floatformat:4 }}<p style="color:red; margin:0px;">{{ error }}</p></td>
+                      <td>{{ trade_info.totle_amount|floatformat:6 }}</td>
+                      <td>{{ trade_info.realized_profit|floatformat:4 }}</td>
+                      <td>{{ trade_info.unrealized_profit|floatformat:4 }}</td>
+                      <td class="coin_profit">{{ trade_info.profit|floatformat:2 }}</td>
                   </tr>
                 </tbody>
             </table>
@@ -42,10 +42,10 @@
                       </tr>
                     </thead>
                     <tbody>
-                    {% for item in this_coin.new_trade%}
+                    {% for item in trade_records%}
                       <tr>
                         <th scope="row">{{ forloop.counter }}</th>
-                        <td class="col-md-2">{{ item.time }}</td>
+                        <td class="col-md-2">{{ item.time|date:"Y-m-d" }}</td>
                         {% if item.isBuyer %}
                           <td><button type="button" class="btn btn-success btn-sm disabled">Buy</button></td>
                         {% else %}
@@ -53,8 +53,8 @@
                         {% endif %}
                         <td>{{ item.symbol }}</td>
                         <td>{{ item.price|floatformat:3 }}</td>
-                        <td>{{ item.qty }}</td>
-                        <td>{{ item.quoteQty|floatformat:3 }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.cost|floatformat:3 }}</td>
                       </tr>
                     {% endfor %}
                     </tbody>

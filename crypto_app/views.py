@@ -1,4 +1,5 @@
-from .models import Website_users
+
+from .models import Website_users, user_trade_records
 from binance.exceptions import BinanceAPIException
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
@@ -60,35 +61,58 @@ def logoutuser(request):
 def dashboard(request):
     user = GetUserInfo()
     try:
-        user_key_info = Website_users.objects.get(user=request.user)
-        user.api_key = user_key_info.api_key
-        user.secret_key = user_key_info.secret_key
+        user_info = Website_users.objects.get(user=request.user)
+        user.api_key = user_info.api_key
+        user.secret_key = user_info.secret_key
+        user.user_id = user_info.id
         if request.method == 'GET':
-            return render(request, 'dashboard.html',
-                          {
-                           'this_coin': user.get_trades_info(),
-                           'user_asset': user.get_asset()
-                          })
+            user.load_trades_info()
+            
+            return render(request, 'dashboard.html',{
+                'trade_records': user.get_trade_records(),
+                'trade_info': user.cur_coin_detail(),
+                'user_asset': user.get_asset()
+            })
         elif request.method == 'POST':
             new_symbol = request.POST.get('inputTicker')
             if new_symbol in user.ALL_TICKERS:
-                return render(request, 'dashboard.html',
-                              {
-                               'this_coin': user.get_trades_info(symbol=new_symbol),
-                               'user_asset': user.get_asset()
-                              })
+                user.load_trades_info(symbol=new_symbol)
+                return render(request, 'dashboard.html',{
+                    'trade_records': user.get_trade_records(symbol=new_symbol),
+                    'trade_info': user.cur_coin_detail(symbol=new_symbol),
+                    'user_asset': user.get_asset()
+                })
             else:
                 return render(request, 'dashboard.html',
                               {
                                'error': 'Invalid Ticker',
-                               'user_asset': user.get_asset()
                               })
-        else:
-            return render(request, 'dashboard.html',
-                          {
-                           'this_coin': user.get_trades_info(),
-                           'user_asset': user.get_asset()
-                          })
+        # if request.method == 'GET':
+        #     return render(request, 'dashboard.html',
+        #                   {
+        #                    'this_coin': user.load_trades_info(),
+        #                    'user_asset': user.get_asset()
+        #                   })
+        # elif request.method == 'POST':
+        #     new_symbol = request.POST.get('inputTicker')
+        #     if new_symbol in user.ALL_TICKERS:
+        #         return render(request, 'dashboard.html',
+        #                       {
+        #                        'this_coin': user.load_trades_info(symbol=new_symbol),
+        #                        'user_asset': user.get_asset()
+        #                       })
+        #     else:
+        #         return render(request, 'dashboard.html',
+        #                       {
+        #                        'error': 'Invalid Ticker',
+        #                        'user_asset': user.get_asset()
+        #                       })
+        # else:
+        #     return render(request, 'dashboard.html',
+        #                   {
+        #                    'this_coin': user.load_trades_info(),
+        #                    'user_asset': user.get_asset()
+        #                   })
     except BinanceAPIException:
         return render(request, 'dashboard.html',
                       {
