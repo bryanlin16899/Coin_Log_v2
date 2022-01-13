@@ -1,5 +1,5 @@
 
-from .models import Website_users, user_trade_records
+from .models import Website_users
 from binance.exceptions import BinanceAPIException
 from django.db import IntegrityError
 from django.shortcuts import render, redirect

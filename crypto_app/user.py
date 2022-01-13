@@ -1,5 +1,4 @@
 from datetime import datetime
-from symtable import Symbol
 from typing import Dict, List
 from xmlrpc.client import Boolean
 from django.db.models.aggregates import Sum
