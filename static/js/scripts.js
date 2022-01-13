@@ -11,11 +11,11 @@ const form = document.querySelector('.form')
 // Fetch Market Data every 30 sec, if data is different
 // page content will change without refresh.
 window.setInterval(async function () {
-    if (window.location.pathname === '/' || window.location.pathname === '/dashboard'){
+    if (window.location.pathname === '/' || window.location.pathname === '/dashboard') {
         const data = await loadData()
         if (data === 'diff') {
             console.log('✨✨✨')
-            coinMarketView.renderMarkup(state.result.slice(0,30))
+            coinMarketView.renderMarkup(state.result.slice(0, 30))
             coinMarketView.priceChangeColor()
         }
     }
@@ -29,19 +29,19 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 });
 
-searchTrade.addEventListener('click', function(){
+searchTrade.addEventListener('click', function () {
     form.classList.toggle('hidden');
     localStorage.setItem('form_hidden', true);
 })
 
-const controlUserAsset = function() {
+const controlUserAsset = function () {
     userAssetView.render(state.allCoinImage)
 }
 
-const init = async function() {
+const init = async function () {
     await loadData()
     loadCoinImage()
-    coinMarketView.renderMarkup(state.result.slice(0,30))
+    coinMarketView.renderMarkup(state.result.slice(0, 30))
     coinMarketView.priceChangeColor()
     userAssetView.addHandlerUserAsset(controlUserAsset)
 }

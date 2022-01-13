@@ -28,15 +28,15 @@ class CoinMarketView {
 
     priceChangeColor() {
         const _allPriceChange = document.querySelectorAll('.day_change')
-        _allPriceChange.forEach( num => {
-            if (Number(num.textContent) > 0){
+        _allPriceChange.forEach(num => {
+            if (Number(num.textContent) > 0) {
                 num.style.color = 'green';
                 num.textContent = `▲${num.textContent}`;
             } else {
                 num.style.color = 'red';
                 num.textContent = `▼${num.textContent}`;
             }
-            })
+        })
     }
 
     clear() {

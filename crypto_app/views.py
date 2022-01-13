@@ -7,7 +7,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 
-from crypto_app.user import GetUserInfo # user.py use to get user status,trade records...etc
+# user.py use to get user status,trade records...etc
+from crypto_app.user import GetUserInfo
+from crypto_app import config
+
 
 def home(request):
     return render(request, 'index.html')
@@ -23,10 +26,13 @@ def signupuser(request):
                 user.api_key = request.POST['api_key']
                 user.secret_key = request.POST['secret_key']
                 if user.get_user_status():
-                    user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
+                    user = User.objects.create_user(
+                        request.POST['username'], password=request.POST['password1'])
                     user.save()
-                    user_id = User.objects.get(username=request.POST['username']).id
-                    api_info = Website_users(user_id=user_id, api_key=request.POST['api_key'], secret_key=request.POST['secret_key'])
+                    user_id = User.objects.get(
+                        username=request.POST['username']).id
+                    api_info = Website_users(
+                        user_id=user_id, api_key=request.POST['api_key'], secret_key=request.POST['secret_key'])
                     api_info.save()
                     login(request, user)
                     return redirect('dashboard')
@@ -36,14 +42,15 @@ def signupuser(request):
                 return render(request, 'signup.html', {'error': 'That username has already been taken \n try another one.'})
         else:
             return render(request, 'signup.html', {'error': 'Password did not match.'})
-    # Design from Bryan lin: https://github.com/bryanlin16899
+# Design from Bryan lin: https://github.com/bryanlin16899
 
 
 def loginuser(request):
     if request.method == 'GET':
         return render(request, 'login.html')
     else:
-        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        user = authenticate(
+            request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
             return render(request, 'login.html', {'error': 'Username and password did not match.'})
         else:
@@ -65,19 +72,11 @@ def dashboard(request):
         user.api_key = user_info.api_key
         user.secret_key = user_info.secret_key
         user.user_id = user_info.id
-        if request.method == 'GET':
-            user.load_trades_info()
-            
-            return render(request, 'dashboard.html',{
-                'trade_records': user.get_trade_records(),
-                'trade_info': user.cur_coin_detail(),
-                'user_asset': user.get_asset()
-            })
-        elif request.method == 'POST':
+        if request.method == 'POST':
             new_symbol = request.POST.get('inputTicker')
-            if new_symbol in user.ALL_TICKERS:
+            if new_symbol in config.ALL_TICKERS:
                 user.load_trades_info(symbol=new_symbol)
-                return render(request, 'dashboard.html',{
+                return render(request, 'dashboard.html', {
                     'trade_records': user.get_trade_records(symbol=new_symbol),
                     'trade_info': user.cur_coin_detail(symbol=new_symbol),
                     'user_asset': user.get_asset()
@@ -85,38 +84,21 @@ def dashboard(request):
             else:
                 return render(request, 'dashboard.html',
                               {
-                               'error': 'Invalid Ticker',
+                                  'error': 'Invalid Ticker',
+                                  'user_asset': user.get_asset()
                               })
-        # if request.method == 'GET':
-        #     return render(request, 'dashboard.html',
-        #                   {
-        #                    'this_coin': user.load_trades_info(),
-        #                    'user_asset': user.get_asset()
-        #                   })
-        # elif request.method == 'POST':
-        #     new_symbol = request.POST.get('inputTicker')
-        #     if new_symbol in user.ALL_TICKERS:
-        #         return render(request, 'dashboard.html',
-        #                       {
-        #                        'this_coin': user.load_trades_info(symbol=new_symbol),
-        #                        'user_asset': user.get_asset()
-        #                       })
-        #     else:
-        #         return render(request, 'dashboard.html',
-        #                       {
-        #                        'error': 'Invalid Ticker',
-        #                        'user_asset': user.get_asset()
-        #                       })
-        # else:
-        #     return render(request, 'dashboard.html',
-        #                   {
-        #                    'this_coin': user.load_trades_info(),
-        #                    'user_asset': user.get_asset()
-        #                   })
+        else:
+            user.load_trades_info()
+
+            return render(request, 'dashboard.html',
+                          {'trade_records': user.get_trade_records(),
+                           'trade_info': user.cur_coin_detail(),
+                           'user_asset': user.get_asset(),
+                           })
     except BinanceAPIException:
         return render(request, 'dashboard.html',
                       {
-                        'error': 'Your API KEY or SECRET KEY did not correct.',
+                          'error': 'Your API KEY or SECRET KEY did not correct.',
                       })
 
 

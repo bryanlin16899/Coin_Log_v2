@@ -10,13 +10,13 @@ class UserAssetView {
         console.log(this._data)
         Array.from(this._parentElement).map(ele => {
             const userAssetSymbol = ele.alt
-            ele.src=this._data[userAssetSymbol]
+            ele.src = this._data[userAssetSymbol]
         });
     }
 
     addHandlerUserAsset(handler) {
-        if (window.location.pathname === '/dashboard'){
-            if (Number(this._coinProfit.textContent) > 0){
+        if (window.location.pathname === '/dashboard') {
+            if (Number(this._coinProfit.textContent) > 0) {
                 this._coinProfit.style.color = 'green';
                 this._coinProfit.textContent = `▲${this._coinProfit.textContent} USD`;
             } else if (Number(this._coinProfit.textContent) < 0) {

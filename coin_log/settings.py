@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2)kz6zy6_5dom=!lvetxbno4tz2z+txat)srh4^w5bv)yizr+=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['coinlogv2.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['coinlogv2.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -80,10 +80,10 @@ DATABASES = {
         'NAME': 'coin_log_dev',
         'USER': 'root',
         'PASSWORD': '!?frdvgtecb03',
-        'HOST': 'localhost', #本地的話就是localhost
+        'HOST': 'localhost',  # 本地的話就是localhost
         'PORT': '3306',
         'OPTIONS': {
-            'charset': 'utf8mb4' #因為網站會需要輸入中文，所以使用utf8
+            'charset': 'utf8mb4'  # 因為網站會需要輸入中文，所以使用utf8
         }
     }
 }
