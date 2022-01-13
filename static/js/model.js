@@ -9,9 +9,9 @@ export const state = {
 
 const timeout = function (s) {
     return new Promise(function (_, reject) {
-        setTimeout(function () {
-            reject(new Error(`Request took too long! Timeout after ${s} second`));
-        }, s * 1000);
+      setTimeout(function () {
+        reject(new Error(`Request took too long! Timeout after ${s} second`));
+      }, s * 1000);
     });
 };
 
@@ -21,17 +21,14 @@ const _getData = async function (url) {
         const res = await Promise.race([fetchData, timeout(10)]);
         const result = await res.json();
 
-        if (!res.ok) throw new Error(`something wrong.`);
-
-        console.log(result);
+        if(!res.ok) throw new Error(`something wrong.`);
         return result;
-
     } catch (err) {
         console.log(err);
     }
 }
 
-export const loadData = async function () {
+export const loadData = async function() {
     try {
         const newData = await _getData(COIN_GECKO_URL);
         let curBitcoinPrice = newData[0].current_price;
@@ -48,22 +45,22 @@ export const loadData = async function () {
         })
 
         lastBitcoin = document.querySelector('.coin_market');
-        if (lastBitcoin !== null) {
+        if (lastBitcoin !== null){
             const lastBitcoinPrice = Number(lastBitcoin.textContent);
             console.log(lastBitcoinPrice, curBitcoinPrice);
-            if (lastBitcoinPrice === curBitcoinPrice) {
+            if (lastBitcoinPrice === curBitcoinPrice){
                 return 'same';
             }
         }
 
         return 'diff';
-
-    } catch (err) {
+    
+    } catch(err) { 
         console.log(err);
     }
 }
 
-export const loadCoinImage = async function () {
+export const loadCoinImage = async function() {
     state.result.map(res => {
         return state.allCoinImage[res.symbol] = res.image
     })
