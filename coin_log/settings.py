@@ -101,6 +101,9 @@ DATABASES = {
     }
 }
 
+# R7dCihO5yi7Ogo96pls0PNfa47KVYyTZRKkPunGhdNohIYTgmzpQahcvWfkJV70t
+# uS80eKfmhJ98qsFFK439hzWjFGtLWNguGmDUF6jz26g7KXcxsNuAjctlKGXOnrFv
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

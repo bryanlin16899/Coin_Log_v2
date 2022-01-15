@@ -20,7 +20,8 @@ def signupuser(request):
     if request.method == 'GET':
         return render(request, 'signup.html')
     else:
-        if request.POST['password1'] == request.POST['password2']:
+        if request.POST['password1'] == request.POST['password2'] and Website_users.objects.count() <= 10:
+            print(Website_users.objects.count())
             try:
                 user = GetUserInfo()
                 user.api_key = request.POST['api_key']
@@ -41,7 +42,7 @@ def signupuser(request):
             except IntegrityError:
                 return render(request, 'signup.html', {'error': 'That username has already been taken \n try another one.'})
         else:
-            return render(request, 'signup.html', {'error': 'Password did not match.'})
+            return render(request, 'signup.html', {'error': 'Password did not match or user up to maximum.'})
 # Design from Bryan lin: https://github.com/bryanlin16899
 
 

@@ -28,7 +28,7 @@ class GetUserInfo:
         client = Client(self.api_key, self.secret_key)
         trade_records = client.get_my_trades(symbol=symbol)
 
-        if len(trade_records) != user_trade_records.objects.filter(symbol=symbol).count():
+        if len(trade_records) != user_trade_records.objects.filter(symbol=symbol, user_id=self.user_id).count():
             for data in trade_records:
                 if not user_trade_records.objects.filter(record_id=data['id']).exists():
 
@@ -47,28 +47,31 @@ class GetUserInfo:
                         isBuyer=data['isBuyer']
                     )
                     record.save()
+                else:
+                    break
 
     # will return trade analytics with matched symbol
     def cur_coin_detail(self, symbol='BTCUSDT') -> Dict:
         client = Client(self.api_key, self.secret_key)
 
         # object for the matched symbol in database
-        trade_query = user_trade_records.objects.filter(symbol=symbol)
+        trade_query = user_trade_records.objects.filter(
+            symbol=symbol, user_id=self.user_id)
 
         sum_of_buy_quantity = trade_query.filter(
-            isBuyer=True).aggregate(Sum('quantity'))['quantity__sum']
+            isBuyer=True).aggregate(Sum('quantity'))['quantity__sum'] or 0
         sum_of_sell_quantity = trade_query.filter(
-            isBuyer=False).aggregate(Sum('quantity'))['quantity__sum']
+            isBuyer=False).aggregate(Sum('quantity'))['quantity__sum'] or 0
 
         # data for detail
         totle_costs = trade_query.filter(
-            isBuyer=True).aggregate(Sum('cost'))['cost__sum']
+            isBuyer=True).aggregate(Sum('cost'))['cost__sum'] or 0
         totle_amount = (sum_of_buy_quantity -
                         sum_of_sell_quantity) if sum_of_sell_quantity else sum_of_buy_quantity
         realized_profit = trade_query.filter(
             isBuyer=False).aggregate(Sum('cost'))['cost__sum'] or 0
         unrealized_profit = float(client.get_recent_trades(
-            symbol=symbol)[0]['price']) * totle_amount
+            symbol=symbol)[0]['price']) * totle_amount or 0
         profit = realized_profit + unrealized_profit - totle_costs
         average_price = ((totle_costs - realized_profit) /
                          totle_amount) if unrealized_profit > 1 else 0
@@ -85,7 +88,7 @@ class GetUserInfo:
     # return QuerySet with matched symbol
     # ex <QuerySet [<user_trade_records: user_trade_records object (1)>, ...]>
     def get_trade_records(self, symbol='BTCUSDT') -> user_trade_records:
-        return user_trade_records.objects.filter(symbol=symbol)
+        return user_trade_records.objects.filter(symbol=symbol, user_id=self.user_id)
 
     # return user current asset
     # ex [{'asset': 'BTC', 'free': '0.00872000', 'locked': '0.00000000'},...]
