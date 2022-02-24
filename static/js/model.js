@@ -40,7 +40,7 @@ export const loadData = async function() {
                 name: res.name,
                 image: res.image,
                 current_price: res.current_price,
-                price_change_persentage: res.price_change_percentage_24h.toFixed(2),
+                price_change_persentage: res.price_change_percentage_24h? res.price_change_percentage_24h.toFixed(2) : 0,
             }
         })
 
